@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Models\Company;
+use App\Models\Responsibility;
+use App\Models\Employee;
+
 class Role extends Model
 {
     use HasFactory, SoftDeletes;
