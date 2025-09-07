@@ -19,7 +19,7 @@ class Company extends Model
         'logo',
     ];
 
-    public function user()
+    public function users()
     {
         return $this->belongsToMany(User::class);
     }
