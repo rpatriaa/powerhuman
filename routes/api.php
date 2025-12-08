@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CompanyController;
+use App\Http\Controllers\Api\ResponsibilityController;
+use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Api\TeamController;
 use App\Http\Controllers\API\UserController;
-use App\Models\Company;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,16 +19,42 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::prefix('team')->middleware('auth:sanctum')->name('team.')->group(function () {
+    Route::get('', [TeamController::class, 'fetch'])->name('fetch');
+    Route::post('', [TeamController::class, 'create'])->name('create');
+    Route::put('update/{id}', [TeamController::class, 'update'])->name('update');
+    Route::delete('{id}', [TeamController::class, 'destroy'])->name('delete');
+});
+
+Route::prefix('role')->middleware('auth:sanctum')->name('role.')->group(function () {
+    Route::get('', [RoleController::class, 'fetch'])->name('fetch');
+    Route::post('', [RoleController::class, 'create'])->name('create');
+    Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
+    Route::delete('{id}', [RoleController::class, 'destroy'])->name('delete');
+});
+
+Route::prefix('responsibility')->middleware('auth:sanctum')->name('responsibility.')->group(function () {
+    Route::get('', [ResponsibilityController::class, 'fetch'])->name('fetch');
+    Route::post('', [ResponsibilityController::class, 'create'])->name('create');
+    Route::put('update/{id}', [ResponsibilityController::class, 'update'])->name('update');
+    Route::delete('{id}', [ResponsibilityController::class, 'destroy'])->name('delete');
 });
 
 
-Route::get('/company', [CompanyController::class, 'fetch'])->middleware('auth:sanctum');
-Route::post('/company', [CompanyController::class, 'create'])->middleware('auth:sanctum');
-Route::put('/company/update/{id}', [CompanyController::class, 'update'])->middleware('auth:sanctum');
+Route::prefix('company')->middleware('auth:sanctum')->name('company.')->group(function () {
+    Route::get('', [CompanyController::class, 'fetch'])->name('fetch');
+    Route::post('', [CompanyController::class, 'create'])->name('create');
+    Route::put('update/{id}', [CompanyController::class, 'update'])->name('update');
+});
 
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-Route::get('/user', [UserController::class, 'fetch'])->middleware('auth:sanctum');
+
+Route::name('auth.')->group(function () {
+    Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::post('register', [AuthController::class, 'register'])->name('register');
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+        Route::get('user', [UserController::class, 'user'])->name('user');
+    });
+});
