@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CompanyController;
+use App\Http\Controllers\API\EmployeeController;
 use App\Http\Controllers\Api\ResponsibilityController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\TeamController;
 use App\Http\Controllers\API\UserController;
+use App\Models\Employee;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +21,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::prefix('employee')->middleware('auth:sanctum')->name('employee.')->group(function () {
+    Route::get('', [EmployeeController::class, 'fetch'])->name('fetch');
+    Route::post('', [EmployeeController::class, 'create'])->name('create');
+    Route::put('update/{id}', [EmployeeController::class, 'update'])->name('update');
+    Route::delete('{id}', [EmployeeController::class, 'destroy'])->name('delete');
+});
 
 Route::prefix('team')->middleware('auth:sanctum')->name('team.')->group(function () {
     Route::get('', [TeamController::class, 'fetch'])->name('fetch');
