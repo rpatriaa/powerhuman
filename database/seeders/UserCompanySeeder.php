@@ -14,7 +14,7 @@ class UserCompanySeeder extends Seeder
     public function run(): void
     {
         for( $i = 1; $i <= 10; $i++) {
-            DB::table('user_company')->insert([
+            DB::table('company_user')->insert([
                 'user_id' => rand(1, 10), // Assuming you have 10 users
                 'company_id' => rand(1, 10), // Assuming you have 10 companies
                 'created_at' => now(),

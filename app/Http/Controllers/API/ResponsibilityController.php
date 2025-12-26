@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateResponsibilityRequest;
-use App\Http\Requests\UpdateResponsibilityRequest;
 use App\Models\Responsibility;
 use Exception;
 use Illuminate\Http\Request;
@@ -42,7 +41,7 @@ class ResponsibilityController extends Controller
         }
 
         // powerhuman.test/api/responsibility?name=powerhuman
-        $responsibility = $ResponsibilityQuery->where('company_id', $request->company_id);
+        $responsibility = $ResponsibilityQuery->where('role_id', $request->role_id);
 
         // cek query yang dijalankan diatas
         // dd($responsibilitys->toSql());
@@ -66,7 +65,7 @@ class ResponsibilityController extends Controller
             // Cara manual setelah lolos validasi
             $responsibility = Responsibility::create([
                 'name' => $request->name,
-                'company_id' => $request->company_id,
+                'role_id' => $request->role_id,
             ]);
 
             if (!$responsibility) {
@@ -78,39 +77,6 @@ class ResponsibilityController extends Controller
                 'Responsibility created successfully'
             );
         } catch (\Exception $e) {
-            return ResponseFormatter::error(
-                null,
-                $e->getMessage(),
-                500
-            );
-        }
-    }
-
-    public function update(UpdateResponsibilityRequest $request, $id)
-    {
-        try {
-
-            $responsibility = Responsibility::find($id);
-
-            if (!$responsibility) {
-                throw new Exception('Responsibility not found');
-            }
-
-            // Update the Responsibility with the validated data form request
-            // $responsibility->update($request->validated());
-
-            // Update the Responsibility manually
-            $responsibility->update([
-                'name' => $request->name,
-                'icon' => isset($path) ? $path : $responsibility->icon,
-                'company_id' => $request->company_id,
-            ]);
-
-            return ResponseFormatter::success(
-                $responsibility,
-                'Responsibility updated successfully'
-            );
-        } catch (Exception $e) {
             return ResponseFormatter::error(
                 null,
                 $e->getMessage(),

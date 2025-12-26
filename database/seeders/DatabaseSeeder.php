@@ -19,10 +19,15 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // \App\Models\Company::factory(10)->create();
-        // \App\Models\Team::factory(30)->create();
-        // \App\Models\Role::factory(50)->create();
-        // \App\Models\Responsibility::factory(200)->create();
+        \App\Models\User::factory(10)->create();
+        \App\Models\Company::factory(10)->create();
+        \App\Models\Team::factory(30)->create();
+        \App\Models\Role::factory(50)->create();
+        \App\Models\Responsibility::factory(20)->create();
         \App\Models\Employee::factory(1000)->create();   
+
+        $this->call([
+            UserCompanySeeder::class,
+        ]);
     }
 }
