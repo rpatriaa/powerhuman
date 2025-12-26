@@ -61,6 +61,6 @@ class User extends Authenticatable
 
     public function companies()
     {
-        return $this->belongsToMany(Company::class)->withTimestamps();
+        return $this->hasMany(Company::class, 'company_user');
     }
 }
